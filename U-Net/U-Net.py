@@ -1,3 +1,5 @@
+import torch
+import torch.nn as nn
 import torchvision
 
 def conv(in_channels, out_channels):
@@ -39,6 +41,15 @@ def crop(enc_ftrs, x):
         return enc_ftrs    
 
 class UNet(nn.Module):
+    """
+    PyTorch implementation of U-Net neural network architecture for biomedical image segmentation.
+    Default input of neural network is 3-channel RGB image and default output is one-channel image.
+    You can change input and ouput characteristics setting 'in_channels' and 'out_channels' parameters.
+    Mode parameter set what version of neural network architecture you choose.
+    First version(mode = 'first') is default version from the U-Net paper (follow the link 'https://arxiv.org/abs/1505.04597'
+    to see more information). Second version (mode = 'second') change default version replacing MaxPool2d with Conv2d with 
+    stride = 2 and replacing Upsample with transpose-convolutions with stride = 2.
+    """
     def __init__(self, in_channels=3, out_channels=1, mode="first"):
         super(UNet, self).__init__()
         
